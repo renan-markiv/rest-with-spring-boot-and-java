@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import br.com.erudio.controllers.PersonController;
 import br.com.erudio.data.vo.v2.PersonVOV2;
+import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.mapper.custom.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -52,6 +53,7 @@ public class PersonServices {
 
     public PersonVO create(PersonVO person) {
 
+        if (person == null) throw new RequiredObjectIsNullException();
         logger.info("Creating one person!");
         var entity = DozerMapper.parseObject(person, Person.class);
         var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
@@ -62,6 +64,7 @@ public class PersonServices {
     //nesse exemplo foi feita a conversao manual, diff do dozer e outras que fazem sozinhos do vo para o bd
     public PersonVOV2 createV2(PersonVOV2 person) {
 
+        if (person == null) throw new RequiredObjectIsNullException();
         logger.info("Creating one person V2!");
         var entity = mapper.convertVOToEntity(person);
         var vo =  mapper.convertEntityToVO(repository.save(entity));

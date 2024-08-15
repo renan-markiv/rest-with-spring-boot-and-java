@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -85,6 +86,17 @@ class PersonServicesTest {
         assertEquals("Female", result.getGender());
     }
 
+    @Test
+    void testCreateWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            service.create(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
 
 
     @Test
@@ -115,6 +127,18 @@ class PersonServicesTest {
     }
 
 
+
+    @Test
+    void testUpdateWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            service.update(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
 
     @Test
     void testDelete() {
